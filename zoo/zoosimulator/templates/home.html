@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoo Simulator</title>
+</head>
+<body>
+    <h1>Zoo Simulator</h1>
+    <p>Time: {{ zoo.current_time }} hours</p>
+
+    <h2>Animals</h2>
+
+    <!-- Here I use DTL (Django template language)
+    This allows for dynamic attributes to be displayed e.g., changes in health
+    The first for loops through the dictionary returned in get status 
+    The second for loops through the value arrays from the dictionary providing a tuple
+    of each animal. From this tuple describing a single animal the information can be split and presented to the viewer -->
+
+    {% for species, animals in zoo.get_zoo_status.items %}
+        <ul class="species">
+            <h2>{{species}}</h2>
+            {% for animal in animals %}
+            
+                <li><strong>Name:</strong> {{ animal.0 }} </li>
+                <li><strong>Health:</strong> {{ animal.1 }}% </li>
+                <li><strong>Status:</strong> {% if animal.2 %} Alive {% else %} Dead {% endif %}</li> 
+                <br>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    
+    <button onclick="window.location.href='{% url 'pass_time' %}'">Pass Time</button>
+    <button onclick="window.location.href='{% url 'feed_zoo' %}'">Feed Animals</button>
+</body>
+</html>
